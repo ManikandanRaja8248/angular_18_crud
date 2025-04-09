@@ -1,1 +1,102 @@
-<button class="btn btn-success">Pushpanthi</button>
+<div class="row">
+  <div class="col-8">
+    <div class="card">
+      <div class="card-header bg-success">
+        <h6>Employee List</h6>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>S No</th>
+                  <th>Name</th>
+                  <th>Contact No</th>
+                  <th>Email Id</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of employeeList; track $index) {
+                    <tr>
+                        <td> {{$index+1}}</td>
+                        <td> {{item.name}}</td>
+                        <td> {{item.contactNo}}</td>
+                        <td> {{item.emailId}}</td>
+                        <td class="text-center"> 
+                            <button class="btn btn-primary" (click)="onEdit(item)">Edit</button>
+                            <button class="btn btn-danger mx-2" (click)="onDelete(item.empId)">Delete</button>
+                        </td>
+                    </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="card">
+      <div class="card-header bg-success">New Employee</div>
+      <div class="card-body">
+        <form [formGroup]="employeeFrom">
+          <div class="row">
+            <div class="col-12">
+              <label for="">Name</label>
+              <input type="text" class="form-control" formControlName="name"/>
+              <div class="text-danger">
+                @if(employeeFrom.controls['name'].value && employeeFrom.controls['name'].errors?.['required']){
+                    <span>Name is Requried</span>
+                }
+                <span></span>
+              </div>
+            </div>
+            <div class="col-6">
+              <label for="">Email-id</label>
+              <input type="text" class="form-control" formControlName="emailId" />
+            </div>
+            <div class="col-6">
+              <label for="">contact-no</label>
+              <input type="text" class="form-control" formControlName="contactNo" />
+            </div>
+            <div class="col-6">
+              <label for="">City</label>
+              <input type="text" class="form-control" formControlName="city" />
+            </div>
+            <div class="col-6">
+              <label for="">State</label>
+              <input type="text" class="form-control" formControlName="state" />
+            </div>
+            <div class="col-6">
+              <label for="">Pincode</label>
+              <input type="text" class="form-control" formControlName="pincode" />
+              @if(employeeFrom.controls['pincode'].value && employeeFrom.controls['pincode'].errors?.['required']){
+                <span>pincode is Requried</span>
+              }@else if (employeeFrom.controls['pincode'].errors?.['minlength']) {
+                <span> Min 6 char Required</span>
+              }
+            </div>
+            <div class="col-12">
+              <label for="">Address</label>
+              <textarea class="form-control" formControlName="address"></textarea>
+            </div>
+          </div>
+          <div class="row pt-2">
+            <div class="col-6 text-center">
+              <button class="btn btn-secondary">Reset</button>
+            </div>
+            <div class="col-6 text-center">
+                @if (employeeFrom.controls['empId'].value =='1') {
+                    <button class="btn btn-success" (click)="onSave()">Save</button>
+                }@else {
+                    <button class="btn btn-warning" (click)="onUpdate()">Update</button>
+                }
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
